@@ -28,3 +28,30 @@ EventCenter.on('my_event', function(data){
   console.log('my_event2 received...');
 });
 EventCenter.fire('my_event');
+
+//第二种实现方式
+function Event(){
+	this.events = {};
+};
+
+Event.prototype = {
+	on:function (evt,callback){
+		var this.events[evt] = this.events[evt]||[];
+		events[evt].push({
+			callback:callback
+		});
+	},
+	fire:function (){
+		var args = [].slice.apply(arguments);
+		var evtype = args.shift();
+		var arg = args;
+		if(this.events[evtype]){
+			this.events[evtype].forEach(function(callback){
+				callback(arg)
+			});
+		};
+	},
+	off:function(evt){
+		delete this.events[evt]
+	}
+};
